@@ -1,14 +1,26 @@
+<?php
+$partner = $_POST["partner"];
+$user_seller = $_POST["user_seller"];
+$out_order_no = $_POST["out_order_no"];
+$subject = $_POST["subject"];
+$total_fee = $_POST["total_fee"];
+$body = $_POST["body"];
+$notify_url = $_POST["notify_url"];
+$return_url = $_POST["return_url"];
+$sign = $_POST["sign"];
+
 $data = '{
-    "id": "17999030",
-    "method": "sayHello",
-    "jsonrpc": "2.0",
-    "params": 
-        {
-            "acmac": "00E0614CA7C6",
-            "acconf_version": "2015-10-28-09-45"
-        }
+    "partner": $partner,
+    "user_seller": $user_seller,
+    "out_order_no": $out_order_no,
+    "subject": $subject,
+    "total_fee": $total_fee,
+    "body": $body,
+    "notify_url": $notify_url,
+    "return_url": $return_url,
+    "sign": $sign
     }';
-$url = "http://wifi.doucube.com/index.php/interface/device/ConfHeartbeat.html";
+$url = "http://payment.passpay.net/PayOrder/payorder";
 
 $res = http_request($url, $data);
 
@@ -30,3 +42,5 @@ function http_request($url, $data = null)
     curl_close($curl);
     return $output;
 }
+
+?>
