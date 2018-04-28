@@ -1,0 +1,61 @@
+lan 安装
+https://www.directadmin.com/lan.shtml
+端口
+https://help.directadmin.com/item.php?id=75
+
+WEBDAV
+https://help.poralix.com/articles/webdav-support-with-nginxapache-on-directadmin-server
+
+/dev/urandom
+http://forum.directadmin.com/showthread.php?t=54469
+
+
+opcache
+https://help.directadmin.com/item.php?id=567
+
+/usr/local/lib/php.conf.d/修改conf
+
+
+修复/dev/urandom问题，参考以下链接。
+http://forum.directadmin.com/showthread.php?t=54469
+https://help.directadmin.com/item.php?id=2
+
+cd /usr/local/directadmin/data/templates
+cp virtual_host2*.conf custom
+cd custom
+修改conf文件，添加：
+
+|?OPEN_BASEDIR_PATH=`HOME`/:/tmp:/dev/urandom:/var/tmp/:/usr/local/lib/php/|
+
+然后：
+echo "action=rewrite&value=httpd" >> /usr/local/directadmin/data/task.queue
+
+等待执行。
+
+安装redis
+yum install redis
+chkconfig redis on
+
+安装php-pecl-redis
+http://forum.directadmin.com/showthread.php?t=47390
+https://segmentfault.com/a/1190000008420258
+https://pecl.php.net/package/redis
+下载，解压，进入目录
+whereis phpize
+/usr/local/bin/phpize
+./configure --with-php-config=/usr/local/bin/php-config
+make && make install
+
+/usr/local/lib/php/extensions/no-debug-non-zts-20151012/
+编辑/usr/local/lib/php.conf.d/下的conf
+加入：
+extension=redis.so
+phpinfo里可以看到enabled
+
+编辑nextcloud的config.php
+'memcache.locking' => '\OC\Memcache\Redis',
+'memcache.local' => '\OC\Memcache\Redis',
+'redis' => array(
+     'host' => 'localhost',
+     'port' => 6379,
+      ),
