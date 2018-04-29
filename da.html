@@ -70,3 +70,9 @@ phpinfo里可以看到enabled
      'port' => 6379,
       ),
 
+调整上传文件大小
+编辑/usr/local/lib/php.conf.d/下的conf
+max_execution_time = 150
+max_input_time = 300
+post_max_size = 512M
+upload_max_filesize = 512M
