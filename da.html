@@ -1,19 +1,29 @@
 lan 安装
 https://www.directadmin.com/lan.shtml
-端口
+端口iptables
 https://help.directadmin.com/item.php?id=75
+
+中文
+https://github.com/hostsoft/diretcadmin-chinese-lang/
+
 
 WEBDAV
 https://help.poralix.com/articles/webdav-support-with-nginxapache-on-directadmin-server
 
-/dev/urandom
-http://forum.directadmin.com/showthread.php?t=54469
 
 
 opcache
 https://help.directadmin.com/item.php?id=567
 
 /usr/local/lib/php.conf.d/修改conf
+
+opcache.enable=1
+    opcache.enable_cli=1
+    opcache.interned_strings_buffer=8
+    opcache.max_accelerated_files=10000
+    opcache.memory_consumption=128
+    opcache.save_comments=1
+    opcache.revalidate_freq=1
 
 
 修复/dev/urandom问题，参考以下链接。
@@ -59,3 +69,4 @@ phpinfo里可以看到enabled
      'host' => 'localhost',
      'port' => 6379,
       ),
+
