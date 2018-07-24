@@ -15,7 +15,7 @@ Caddyfile 配置文件
 
 Caddyfile示例
 ```
-sgp7.acrossgw.info {
+example.com {
     gzip
     root    /srv
 fastcgi / 127.0.0.1:9000 php # php variant only
