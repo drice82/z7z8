@@ -1,6 +1,6 @@
-#
-Docker 运行带PHP的Caddy
-···
+#Docker 运行带PHP的Caddy
+
+```
 docker run -d \
     -v /home/caddy/Caddyfile:/etc/Caddyfile \
     -v /home/caddy/.caddy:/root/.caddy \
@@ -8,7 +8,7 @@ docker run -d \
     -p 80:80 -p 443:443 -p 2015:2015\
     abiosoft/caddy:php
 
-···
+```
 	
 #Caddyfile 配置文件
 #/root/.caddy 证书存放
