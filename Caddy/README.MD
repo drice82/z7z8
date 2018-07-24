@@ -2,12 +2,12 @@
 
 ```
 docker run -d \
-	--name=caddy \
+    --name=caddy \
     --restart=always \
-	-e ACME_AGREE=true \
+    -e ACME_AGREE=true \
     -v /home/caddy/Caddyfile:/etc/Caddyfile \
     -v /home/caddy/.caddy:/root/.caddy \
-	-v /home/caddy/www:/srv \
+    -v /home/caddy/www:/srv \
     -p 80:80 -p 443:443 -p 2015:2015\
     abiosoft/caddy:php
 
@@ -20,8 +20,8 @@ Caddyfile示例
 ```
 example.com {
     gzip
-    root    /srv
-fastcgi / 127.0.0.1:9000 php # php variant only
-on startup php-fpm7 # php variant only
-}
+    root /srv
+    fastcgi / 127.0.0.1:9000 php # php variant only
+    on startup php-fpm7 # php variant only
+    }
 ```
