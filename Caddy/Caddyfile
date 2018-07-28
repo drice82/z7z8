@@ -1,0 +1,37 @@
+http://status.vipuser.info {
+ gzip
+ proxy / http://118.25.14.218:8888
+}
+
+http://ip100.info {
+    gzip
+    root    /srv/ip100.info
+    fastcgi / 127.0.0.1:9000 php # php variant only
+    on startup php-fpm7 # php variant only
+    }
+
+faka.vipuser.info {
+ gzip
+ tls xujiabin82@gmail.com {
+  protocols tls1.0 tls1.2
+ }
+ proxy / https://card.vipuser.info {
+  header_upstream Host {host}
+  header_upstream X-Real-IP {remote}
+  header_upstream X-Forwarded-For {remote}
+  header_upstream X-Forwarded-Proto {scheme}
+ }
+}
+
+my.vipuser.info {
+ gzip
+ tls xujiabin82@gmail.com {
+  protocols tls1.0 tls1.2
+ }
+ proxy / http://source-vipuser.deals-plus.com {
+  header_upstream Host {host}
+  header_upstream X-Real-IP {remote}
+  header_upstream X-Forwarded-For {remote}
+  header_upstream X-Forwarded-Proto {scheme}
+ }
+}
