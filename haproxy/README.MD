@@ -15,9 +15,11 @@ backend da-source
         server server1 139.99.47.81:2222 maxconn 3200
 
 frontend web80-in
+        mode http
         bind *:80
         default_backend web80-source
 backend web80-source
+        mode http
         server server1 139.99.47.81:80 maxconn 3200
 
 frontend web443-in
