@@ -1,2 +1,0 @@
-ssl.cer
-ssl.key
