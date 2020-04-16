@@ -1,0 +1,2 @@
+#!/bin/sh
+exec python3 /usr/bin/srvstatus/client-linux.py 2>&1
