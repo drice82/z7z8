@@ -4,7 +4,7 @@ services:
     image: v2fly/v2fly-core:v4.23.1
     container_name: v2ray
     volumes:
-      - /home/v2muser/v2ray/config.json:/etc/v2ray/config.json
+      - /home/v2muser/v2ray:/etc/v2ray/
     ports:
       - "8081:8081"
 
@@ -18,3 +18,12 @@ services:
     ports:
       - "80:80"
       - "443:443"
+
+  v2muser:
+    build: ./v2muser
+    container_name: v2muser
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/usr/bin/docker
+      - /home/v2muser/v2ray:/etc/v2ray/
+
