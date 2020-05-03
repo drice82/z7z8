@@ -11,6 +11,8 @@ services:
   nginx:
     image: nginx:1.18.0-alpine
     container_name: nginx
+    depends_on:
+      - v2ray
     volumes:
       - /home/v2muser/nginx:/etc/nginx/conf.d/
     ports:
