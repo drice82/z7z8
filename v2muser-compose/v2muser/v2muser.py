@@ -66,9 +66,9 @@ def get_traffic(user_email):
             except Exception as e:
                 return 0
 
-    cmd_downlink = V2CTL_PATH + ' api --server=127.0.0.1:' + str(
+    cmd_downlink = V2CTL_PATH + ' api --server=v2ray:' + str(
         CTL_PORT) + ' StatsService.GetStats \'name: \"user>>>' + user_email + '>>>traffic>>>downlink\" reset: true\''
-    cmd_uplink = V2CTL_PATH + ' api --server=127.0.0.1:' + str(
+    cmd_uplink = V2CTL_PATH + ' api --server=v2ray:' + str(
         CTL_PORT) + ' StatsService.GetStats \'name: \"user>>>' + user_email + '>>>traffic>>>uplink\" reset: true\''
     d_data = int(traffic_get_msg(cmd_downlink))
     u_data = int(traffic_get_msg(cmd_uplink))
@@ -83,8 +83,8 @@ def get_traffic(user_email):
 #进程检查
 def isRunning(process_name):
     try:
-        process =os.popen('sv status v2ray').read()
-        if process[0:3] =='run':
+        process =os.popen('docker inspect --format \'{{.State.Running}}\' v2ray').read()
+        if process[0:4] =='true':
             return True
         else:
             return False
@@ -196,8 +196,8 @@ def sql_cov_json(userlist):
 
 def update_cfg(u_list):
     v2ray_status = isRunning(V2RAY_PATH)
-    r_cmd = 'sv restart v2ray'
-    s_cmd = 'sv start v2ray'
+    r_cmd = 'docker restart v2ray'
+    s_cmd = 'docker start v2ray'
     sql_cov_json(u_list)
     if v2ray_status:
         os.popen(r_cmd)

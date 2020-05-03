@@ -14,6 +14,5 @@ COPY --from=builder /usr/bin/v2ray/v2ctl /usr/bin/v2ray/
 WORKDIR /usr/src/app
 
 COPY . .
-
     
-CMD [ "python", "./test.py" ]
+CMD [ "python", "./v2muser.py" ]
