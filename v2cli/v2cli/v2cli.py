@@ -7,14 +7,13 @@ import time
 import json
 import subprocess
 
-HOST = 'MYSQL_HOST'
-PORT = 3306
-USERNAME = 'MYSQL_USER'
-PASSWORD = 'MYSQL_PASSWORD'
-DBNAME = 'MYSQL_DBNAME'
-MUL = SETMUL
-
-UPDATE_TIME = 150
+HOST = os.environ.get('MYSQL_HOST', 'mysqlserver.com')
+# PORT = int(os.environ.get('MYSQL_PORT', 3306))
+USERNAME = os.environ.get('MYSQL_USERNAME', 'admin_ss1')
+PASSWORD = os.environ.get('MYSQL_PWD', 'your_password')
+DBNAME = os.environ.get('MYSQL_DBNAME', 'admin_ss1')
+MUL = float(os.environ.get('SET_MUL', 1))
+UPDATE_TIME = int(os.environ.get('UPDATE_TIME', 150)) 
 
 V2RAY_PATH = '/usr/bin/v2ray/v2ray'
 V2CTL_PATH = '/usr/bin/v2ray/v2ctl'
