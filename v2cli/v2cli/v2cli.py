@@ -6,6 +6,7 @@ import sys
 import time
 import json
 import subprocess
+import signal
 
 HOST = os.environ.get('MYSQL_HOST', 'mysqlserver.com')
 # PORT = int(os.environ.get('MYSQL_PORT', 3306))
@@ -20,11 +21,11 @@ V2CTL_PATH = '/usr/bin/v2ray/v2ctl'
 CONFIG_PATH = '/etc/v2ray/config.json'
 ALTERID = 16
 LEVEL = 0
-
 CTL_PORT = 10085
-
 User_list = []
 data = []
+
+loop = True
 
 def update_traffic():
     for u_list in User_list:
@@ -217,15 +218,25 @@ def accept_cfg():
     #else:
         #print('no update')
 
+def receive_signal(signum, stack):
+    global loop
+    loop = False
+
+signal.signal(signal.SIGTERM, receive_signal)
+
 def main():
-    while True:
+    update_time = UPDATE_TIME
+    global loop
+    while loop:
         #print(time.asctime(time.localtime(time.time())))
         try:
             update_traffic()
             accept_cfg()
         except Exception as e:
             print(e)
-        time.sleep(UPDATE_TIME)
+        while loop and update_time>0:
+            update_time -=1
+            time.sleep(1)
 
 
 if __name__ == "__main__":

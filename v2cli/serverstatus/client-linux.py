@@ -5,20 +5,6 @@
 # 支持操作系统： Linux, OSX, FreeBSD, OpenBSD and NetBSD, both 32-bit and 64-bit architectures
 # 时间: 20200407
 # 说明: 默认情况下修改server和user就可以了。丢包率监测方向可以自定义，例如：CU = "www.facebook.com"。
-
-SERVER = "127.0.0.1"
-USER = "s01"
-
-
-
-PORT = 35601
-PASSWORD = "USER_DEFAULT_PASSWORD"
-INTERVAL = 1
-PORBEPORT = 80
-CU = "cu.tz.cloudcpp.com"
-CT = "ct.tz.cloudcpp.com"
-CM = "cm.tz.cloudcpp.com"
-
 import socket
 import time
 import timeit
@@ -29,15 +15,26 @@ import json
 import subprocess
 import threading
 
+SERVER = os.environ.get('STATUS_ADDRESS')
+USER = os.environ.get('STATUS_USER')
+
+PORT = 35601
+PASSWORD = "USER_DEFAULT_PASSWORD"
+INTERVAL = 1
+PORBEPORT = 80
+CU = "cu.tz.ip100.info"
+CT = "ct.tz.ip100.info"
+CM = "cm.tz.ip100.info"
+
 def get_uptime():
-    with open('/proc/uptime', 'r') as f:
+    with open('/proc0/uptime', 'r') as f:
         uptime = f.readline().split('.', 2)
         return int(uptime[0])
 
 def get_memory():
     re_parser = re.compile(r'^(?P<key>\S*):\s*(?P<value>\d*)\s*kB')
     result = dict()
-    for line in open('/proc/meminfo'):
+    for line in open('/proc0/meminfo'):
         match = re_parser.match(line)
         if not match:
             continue
@@ -57,7 +54,7 @@ def get_hdd():
     return int(size), int(used)
 
 def get_time():
-    with open("/proc/stat", "r") as f:
+    with open("/proc0/stat", "r") as f:
         time_list = f.readline().split(' ')[2:6]
         for i in range(len(time_list))  :
             time_list[i] = int(time_list[i])
@@ -82,7 +79,7 @@ def get_cpu():
 def liuliang():
     NET_IN = 0
     NET_OUT = 0
-    with open('/proc/net/dev') as f:
+    with open('/proc0/net/dev') as f:
         for line in f.readlines():
             netinfo = re.findall('([^\s]+):[\s]{0,}(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)', line)
             if netinfo:
@@ -190,7 +187,7 @@ def _ping_thread(host, mark, port):
 
 def _net_speed():
     while True:
-        with open("/proc/net/dev", "r") as f:
+        with open("/proc0/net/dev", "r") as f:
             net_dev = f.readlines()
             avgrx = 0
             avgtx = 0
