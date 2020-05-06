@@ -225,7 +225,6 @@ def receive_signal(signum, stack):
 signal.signal(signal.SIGTERM, receive_signal)
 
 def main():
-    update_time = UPDATE_TIME
     global loop
     while loop:
         #print(time.asctime(time.localtime(time.time())))
@@ -234,6 +233,7 @@ def main():
             accept_cfg()
         except Exception as e:
             print(e)
+        update_time = UPDATE_TIME
         while loop and update_time>0:
             update_time -=1
             time.sleep(1)

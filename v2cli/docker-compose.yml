@@ -23,6 +23,8 @@ services:
   v2cli:
     build: ./v2cli
     container_name: v2cli
+    depends_on:
+      - v2ray
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /home/v2cli/v2ray:/etc/v2ray/
