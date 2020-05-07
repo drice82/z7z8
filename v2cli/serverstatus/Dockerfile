@@ -1,12 +1,13 @@
-FROM python:slim
+FROM python:alpine
 
-RUN apt-get update && \
-    apt-get install -y iproute2 procps && \
+RUN apk add --update gcc libc-dev linux-headers iproute2 procps && \
     rm -rf /var/cache/apk/* /tmp/* /var/tmp/* $HOME/.cache
+
+RUN pip install psutil
 
 WORKDIR /usr/src/app
 
 COPY . .
 
-CMD [ "python", "./client-linux.py"]
+CMD [ "python", "./client-psutil.py"]
 

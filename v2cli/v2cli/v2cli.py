@@ -223,6 +223,7 @@ def receive_signal(signum, stack):
     loop = False
 
 signal.signal(signal.SIGTERM, receive_signal)
+signal.signal(signal.SIGINT, receive_signal)
 
 def main():
     global loop
