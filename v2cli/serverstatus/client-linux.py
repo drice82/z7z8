@@ -5,6 +5,7 @@
 # 支持操作系统： Linux, OSX, FreeBSD, OpenBSD and NetBSD, both 32-bit and 64-bit architectures
 # 时间: 20200407
 # 说明: 默认情况下修改server和user就可以了。丢包率监测方向可以自定义，例如：CU = "www.facebook.com"。
+
 import socket
 import time
 import timeit
@@ -14,6 +15,7 @@ import sys
 import json
 import subprocess
 import threading
+import signal
 
 SERVER = os.environ.get('STATUS_ADDRESS')
 USER = os.environ.get('STATUS_USER')
@@ -27,14 +29,14 @@ CT = "ct.tz.ip100.info"
 CM = "cm.tz.ip100.info"
 
 def get_uptime():
-    with open('/proc0/uptime', 'r') as f:
+    with open('/proc/uptime', 'r') as f:
         uptime = f.readline().split('.', 2)
         return int(uptime[0])
 
 def get_memory():
     re_parser = re.compile(r'^(?P<key>\S*):\s*(?P<value>\d*)\s*kB')
     result = dict()
-    for line in open('/proc0/meminfo'):
+    for line in open('/proc/meminfo'):
         match = re_parser.match(line)
         if not match:
             continue
@@ -54,7 +56,7 @@ def get_hdd():
     return int(size), int(used)
 
 def get_time():
-    with open("/proc0/stat", "r") as f:
+    with open("/proc/stat", "r") as f:
         time_list = f.readline().split(' ')[2:6]
         for i in range(len(time_list))  :
             time_list[i] = int(time_list[i])
@@ -79,7 +81,7 @@ def get_cpu():
 def liuliang():
     NET_IN = 0
     NET_OUT = 0
-    with open('/proc0/net/dev') as f:
+    with open('/proc/net/dev') as f:
         for line in f.readlines():
             netinfo = re.findall('([^\s]+):[\s]{0,}(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)', line)
             if netinfo:
@@ -187,7 +189,7 @@ def _ping_thread(host, mark, port):
 
 def _net_speed():
     while True:
-        with open("/proc0/net/dev", "r") as f:
+        with open("/proc/net/dev", "r") as f:
             net_dev = f.readlines()
             avgrx = 0
             avgtx = 0
@@ -260,6 +262,14 @@ def byte_str(object):
     else:
         print(type(object))
 
+def receive_signal(signum, stack):
+    global loop
+    loop = False
+
+signal.signal(signal.SIGTERM, receive_signal)
+signal.signal(signal.SIGINT, receive_signal)
+
+
 if __name__ == '__main__':
     for argc in sys.argv:
         if 'SERVER' in argc:
@@ -274,7 +284,9 @@ if __name__ == '__main__':
             INTERVAL = int(argc.split('INTERVAL=')[-1])
     socket.setdefaulttimeout(30)
     get_realtime_date()
-    while True:
+    global loop
+    loop = True
+    while loop:
         try:
             print("Connecting...")
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -304,7 +316,7 @@ if __name__ == '__main__':
                 print(data)
                 raise socket.error
 
-            while True:
+            while loop:
                 CPU = get_cpu()
                 NET_IN, NET_OUT = liuliang()
                 Uptime = get_uptime()

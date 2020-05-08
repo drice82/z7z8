@@ -16,7 +16,6 @@ DBNAME = os.environ.get('MYSQL_DBNAME', 'admin_ss1')
 MUL = float(os.environ.get('SET_MUL', 1))
 UPDATE_TIME = int(os.environ.get('UPDATE_TIME', 150)) 
 
-V2RAY_PATH = '/usr/bin/v2ray/v2ray'
 V2CTL_PATH = '/usr/bin/v2ray/v2ctl'
 CONFIG_PATH = '/etc/v2ray/config.json'
 ALTERID = 16
@@ -81,7 +80,7 @@ def get_traffic(user_email):
 
 
 #进程检查
-def isRunning(process_name):
+def isRunning():
     try:
         process =os.popen('docker inspect --format \'{{.State.Running}}\' v2ray').read()
         if process[0:4] =='true':
@@ -195,7 +194,7 @@ def sql_cov_json(userlist):
 
 
 def update_cfg(u_list):
-    v2ray_status = isRunning(V2RAY_PATH)
+    v2ray_status = isRunning()
     r_cmd = 'docker restart v2ray'
     s_cmd = 'docker start v2ray'
     sql_cov_json(u_list)

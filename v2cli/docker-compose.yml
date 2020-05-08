@@ -23,7 +23,7 @@ services:
       - "443:443"
 
   v2cli:
-    build: ./v2cli
+    image: drice64/v2cli:v1
     container_name: v2cli
     restart: always
     depends_on:
@@ -33,4 +33,11 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /home/v2cli/v2ray:/etc/v2ray/
     env_file: ./v2cli.env
+
+  sss:
+    image: drice64/sss:client
+    container_name: sss
+    restart: always
+    network_mode: "host"
+    env_file: ./sss.env
 

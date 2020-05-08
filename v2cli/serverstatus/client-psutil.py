@@ -27,7 +27,6 @@ PORBEPORT = 80
 CU = "cu.tz.ip100.info"
 CT = "ct.tz.ip100.info"
 CM = "cm.tz.ip100.info"
-loop = True
 
 
 def get_uptime():
@@ -260,6 +259,8 @@ if __name__ == '__main__':
             INTERVAL = int(argc.split('INTERVAL=')[-1])
     socket.setdefaulttimeout(30)
     get_realtime_date()
+    global loop
+    loop = True
     while loop:
         try:
             print("Connecting...")
