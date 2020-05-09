@@ -9,7 +9,7 @@ import subprocess
 import signal
 
 HOST = os.environ.get('MYSQL_HOST', 'mysqlserver.com')
-# PORT = int(os.environ.get('MYSQL_PORT', 3306))
+PORT = int(os.environ.get('MYSQL_PORT', 3306))
 USERNAME = os.environ.get('MYSQL_USERNAME', 'admin_ss1')
 PASSWORD = os.environ.get('MYSQL_PWD', 'your_password')
 DBNAME = os.environ.get('MYSQL_DBNAME', 'admin_ss1')
@@ -99,6 +99,7 @@ def exec_sql(sql):
         user=USERNAME,
         passwd=PASSWORD,
         db=DBNAME,
+        port=PORT,
         charset='utf8'
         )
     try:
