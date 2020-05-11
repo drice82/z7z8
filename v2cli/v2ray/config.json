@@ -71,19 +71,6 @@
             "settings": {}
         },
         {
-            "protocol": "shadowsocks",
-            "settings": {
-                "servers": [{
-                    "address": "NETFLIX_PROXY",
-                    "method": "chacha20-ietf-poly1305",
-                    "ota": false,
-                    "password": "V2ray2SS",
-                    "port": 10109
-                }]
-            },
-            "tag": "netflix"
-        },
-        {
             "protocol":"blackhole",
             "settings":{},
             "tag":"block"
@@ -98,11 +85,6 @@
                     ],
                     "outboundTag": "api",
                     "type": "field"
-                },
-                {
-                    "type": "field",
-                    "outboundTag": "netflix",
-                    "domain": ["geosite:netflix"]
                 },
                 {
                     "type":"field",
