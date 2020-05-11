@@ -32,7 +32,14 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /home/v2cli/v2ray:/etc/v2ray/
-    env_file: ./v2cli.env
+    environment:
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_PORT: ${MYSQL_PORT}
+      MYSQL_USERNAME: ${MYSQL_USERNAME}
+      MYSQL_PWD: ${MYSQL_PWD}
+      MYSQL_DBNAME: ${MYSQL_DBNAME}
+      SET_MUL: ${SET_MUL}
+      UPDATE_TIME: ${UPDATE_TIME}
     deploy:
       resources:
         limits:
@@ -44,5 +51,7 @@ services:
     container_name: sss
     restart: always
     network_mode: "host"
-    env_file: ./sss.env
+    environment:
+      STATUS_ADDRESS: ${STATUS_ADDRESS}
+      STATUS_USER: ${STATUS_USER}
 
