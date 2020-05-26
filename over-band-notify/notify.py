@@ -103,9 +103,9 @@ def check_mail(m):
 
 
 def send_mail(to_addr):
-    msg = MIMEText('您在AGW的服务因[账户过期]或[流量超额]导致服务暂停，请登陆https://my.vipuser.info 查看详情', 'plain', 'utf-8')
-    msg['From'] = _format_addr('AGW客户支持 <%s>' % FROM_ADDR)
-    msg['To'] = _format_addr('AGW用户 <%s>' % to_addr)
+    msg = MIMEText('您在的服务因[账户过期]或[流量超额]导致服务暂停，请登录网站 查看详情', 'plain', 'utf-8')
+    msg['From'] = _format_addr('客户支持 <%s>' % FROM_ADDR)
+    msg['To'] = _format_addr('用户 <%s>' % to_addr)
     msg['Subject'] = Header('服务暂停通知', 'utf-8').encode()
     
     smtp_server = SMTP_SERVER
