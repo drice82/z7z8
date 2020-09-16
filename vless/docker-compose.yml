@@ -1,0 +1,31 @@
+version: "3"
+services:
+  vless:
+    image: teddysun/v2ray:4.28.1
+    container_name: vless
+    restart: always
+    volumes:
+      - /home/vless/v2ray:/etc/v2ray/
+      - /home/vless/tls:/etc/tls/
+    ports:
+      - "8000:8000"
+
+  v2cli:
+    image: drice64/v2cli:v2
+    container_name: v2cli2
+    restart: always
+    depends_on:
+      - vless
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /home/vless/v2ray:/etc/v2ray/
+    environment:
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_PORT: ${MYSQL_PORT}
+      MYSQL_USERNAME: ${MYSQL_USERNAME}
+      MYSQL_PWD: ${MYSQL_PWD}
+      MYSQL_DBNAME: ${MYSQL_DBNAME}
+      SET_MUL: ${SET_MUL}
+      UPDATE_TIME: ${UPDATE_TIME}
+
+

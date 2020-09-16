@@ -18,7 +18,6 @@ UPDATE_TIME = int(os.environ.get('UPDATE_TIME', 150))
 
 V2CTL_PATH = '/usr/bin/v2ray/v2ctl'
 CONFIG_PATH = '/etc/v2ray/config.json'
-ALTERID = 16
 LEVEL = 0
 CTL_PORT = 10085
 User_list = []
@@ -65,9 +64,9 @@ def get_traffic(user_email):
             except Exception as e:
                 return 0
 
-    cmd_downlink = V2CTL_PATH + ' api --server=v2ray:' + str(
+    cmd_downlink = V2CTL_PATH + ' api --server=vless:' + str(
         CTL_PORT) + ' StatsService.GetStats \'name: \"user>>>' + user_email + '>>>traffic>>>downlink\" reset: true\''
-    cmd_uplink = V2CTL_PATH + ' api --server=v2ray:' + str(
+    cmd_uplink = V2CTL_PATH + ' api --server=vless:' + str(
         CTL_PORT) + ' StatsService.GetStats \'name: \"user>>>' + user_email + '>>>traffic>>>uplink\" reset: true\''
     d_data = int(traffic_get_msg(cmd_downlink))
     u_data = int(traffic_get_msg(cmd_uplink))
@@ -82,7 +81,7 @@ def get_traffic(user_email):
 #进程检查
 def isRunning():
     try:
-        process =os.popen('docker inspect --format \'{{.State.Running}}\' v2ray').read()
+        process =os.popen('docker inspect --format \'{{.State.Running}}\' vless').read()
         if process[0:4] =='true':
             return True
         else:
@@ -169,7 +168,6 @@ def sql_cov_json(userlist):
                 usrname_cfg = {}
                 usrname_cfg['id'] = user['uuid']
                 usrname_cfg['email'] = user['email']
-                usrname_cfg['alterId'] = ALTERID
                 usrname_cfg['level'] = LEVEL
                 User_list.append(usrname_cfg)
             elif user['enable'] == 0:
@@ -180,7 +178,9 @@ def sql_cov_json(userlist):
     #在配置中更新clients字段
     def create_config_json():
         c_dict = get_config_json()
-        c_dict["inbounds"][0]["settings"].update({'clients':make_config_json()})
+        users1 = make_config_json()
+        c_dict["inbounds"][0]["settings"].update({'clients':users1})
+        c_dict["inbounds"][1]["settings"].update({'clients':users1})
         return c_dict
 
     #更新json并格式化
@@ -196,8 +196,8 @@ def sql_cov_json(userlist):
 
 def update_cfg(u_list):
     v2ray_status = isRunning()
-    r_cmd = 'docker restart v2ray'
-    s_cmd = 'docker start v2ray'
+    r_cmd = 'docker restart vless'
+    s_cmd = 'docker start vless'
     sql_cov_json(u_list)
     if v2ray_status:
         os.popen(r_cmd)
