@@ -1,7 +1,7 @@
 version: "3"
 services:
   vless:
-    image: teddysun/v2ray:4.28.1
+    image: teddysun/v2ray
     container_name: vless
     restart: always
     volumes:
