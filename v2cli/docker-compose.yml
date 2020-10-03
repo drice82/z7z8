@@ -6,8 +6,6 @@ services:
     restart: always
     volumes:
       - /home/v2cli/v2ray:/etc/v2ray/
-    ports:
-      - "8081:8081"
 
   nginx:
     image: nginx:alpine
@@ -18,8 +16,6 @@ services:
     volumes:
       - /home/v2cli/nginx:/etc/nginx/conf.d/
     ports:
-      - "80:80"
-      - "443:443"
       - "8088:443"
 
   v2cli:
