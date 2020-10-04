@@ -6,9 +6,6 @@
 # 时间: 20200407
 # 说明: 默认情况下修改server和user就可以了。丢包率监测方向可以自定义，例如：CU = "www.facebook.com"。
 
-SERVER = os.environ.get('STATUS_ADDRESS')
-USER = os.environ.get('STATUS_USER')
-
 
 PORT = 35601
 PASSWORD = "USER_DEFAULT_PASSWORD"
@@ -27,6 +24,11 @@ import sys
 import json
 import subprocess
 import threading
+import signal
+
+SERVER = os.environ.get('STATUS_ADDRESS')
+USER = os.environ.get('STATUS_USER')
+
 
 def get_uptime():
     with open('/proc/uptime', 'r') as f:
@@ -359,5 +361,5 @@ if __name__ == '__main__':
             print("Caught Exception:", e)
             if 's' in locals().keys():
                 del s
-		time.sleep(3)
+                time.sleep(3)
 
