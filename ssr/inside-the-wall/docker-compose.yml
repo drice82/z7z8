@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  tls:
+    image: ginuerzh/gost
+    restart: always
+    ports:
+      - "8081:8081"
+      - "8081:8081/udp"
+    command:
+      - "-L=tcp://:8081"
+      - "-L=udp://:8081"
+      - "-F=relay+tls://IP-ADDRESS:8081"
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
