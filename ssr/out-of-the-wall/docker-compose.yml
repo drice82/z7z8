@@ -1,0 +1,32 @@
+version: "3"
+
+services:
+  ssr:
+    image: drice64/doss:ssr
+    container_name: ssr
+    restart: always
+    environment:
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_PORT: ${MYSQL_PORT}
+      MYSQL_USER: ${MYSQL_USERNAME}
+      MYSQL_PASSWORD: ${MYSQL_PWD}
+      MYSQL_DBNAME: ${MYSQL_DBNAME}
+      SET_MUL: ${SET_MUL}
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
+  gost:
+    depends_on:
+      - ssr
+    image: ginuerzh/gost
+    restart: always
+    ports:
+      - "8081:443/tcp"
+      - "8081:443/udp"
+    command:
+      - "-L=relay+tls://:443/ssr:443"
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
