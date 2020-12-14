@@ -1,0 +1,24 @@
+{
+    "log":{
+        "loglevel":"warning"
+    },
+    "stats":{},
+    "api":{
+        "tag":"api",
+        "services":[
+            "StatsService"
+        ]
+    },
+    "policy":{
+        "levels":{
+            "0":{
+                "statsUserUplink":true,
+                "statsUserDownlink":true
+            }
+        },
+        "system":{
+            "statsInboundUplink":true,
+            "statsInboundDownlink":true
+        }
+    }
+}

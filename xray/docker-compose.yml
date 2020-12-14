@@ -1,0 +1,32 @@
+version: "3"
+services:
+  v2ray:
+    image: teddysun/xray
+    container_name: v2ray
+    restart: always
+    volumes:
+      - /home/v2ray:/etc/v2ray/
+    ports:
+      - "443:443"
+      - "8000:443"
+      - "8088:443"
+    entrypoint: "xray -confdir /etc/v2ray/conf.d"
+
+  v2cli:
+    image: drice64/v2cli:v3
+    container_name: v2cli
+    restart: always
+    depends_on:
+      - v2ray
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /home/v2ray:/etc/v2ray/
+    environment:
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_PORT: ${MYSQL_PORT}
+      MYSQL_USERNAME: ${MYSQL_USERNAME}
+      MYSQL_PWD: ${MYSQL_PWD}
+      MYSQL_DBNAME: ${MYSQL_DBNAME}
+      SET_MUL: ${SET_MUL}
+      UPDATE_TIME: ${UPDATE_TIME}
+
