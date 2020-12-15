@@ -13,7 +13,7 @@ services:
     entrypoint: "xray -confdir /etc/v2ray/conf.d"
 
   v2cli:
-    image: drice64/v2cli:v3
+    image: drice64/v2cli:v4
     container_name: v2cli
     restart: always
     depends_on:
