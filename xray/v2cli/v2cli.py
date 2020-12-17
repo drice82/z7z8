@@ -250,6 +250,7 @@ signal.signal(signal.SIGTERM, receive_signal)
 signal.signal(signal.SIGINT, receive_signal)
 
 def main():
+    print("V2cli is running")
     global loop
     while loop:
         #print(time.asctime(time.localtime(time.time())))
