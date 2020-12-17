@@ -17,7 +17,7 @@ MUL = float(os.environ.get('SET_MUL', 1))
 UPDATE_TIME = int(os.environ.get('UPDATE_TIME', 150)) 
 
 V2CTL_PATH = '/usr/bin/v2ctl'
-CONFIG_PATH = '/etc/v2ray/conf.d/99_inbounds.json'
+CONFIG_PATH = '/etc/xray/conf.d/99_inbounds.json'
 CTL_PORT = 10085
 User_list = []
 data = []
@@ -63,9 +63,9 @@ def get_traffic(user_email):
             except Exception as e:
                 return 0
 
-    cmd_downlink = V2CTL_PATH + ' api --server=v2ray:' + str(
+    cmd_downlink = V2CTL_PATH + ' api --server=xray:' + str(
         CTL_PORT) + ' StatsService.GetStats \'name: \"user>>>' + user_email + '>>>traffic>>>downlink\" reset: true\''
-    cmd_uplink = V2CTL_PATH + ' api --server=v2ray:' + str(
+    cmd_uplink = V2CTL_PATH + ' api --server=xray:' + str(
         CTL_PORT) + ' StatsService.GetStats \'name: \"user>>>' + user_email + '>>>traffic>>>uplink\" reset: true\''
     d_data = int(traffic_get_msg(cmd_downlink))
     u_data = int(traffic_get_msg(cmd_uplink))
@@ -80,7 +80,7 @@ def get_traffic(user_email):
 #进程检查
 def isRunning():
     try:
-        process =os.popen('docker inspect --format \'{{.State.Running}}\' v2ray').read()
+        process =os.popen('docker inspect --format \'{{.State.Running}}\' xray').read()
         if process[0:4] =='true':
             return True
         else:
@@ -219,11 +219,11 @@ def sql_cov_json(userlist):
 
 
 def update_cfg(u_list):
-    v2ray_status = isRunning()
-    r_cmd = 'docker restart v2ray'
-    s_cmd = 'docker start v2ray'
+    xray_status = isRunning()
+    r_cmd = 'docker restart xray'
+    s_cmd = 'docker start xray'
     sql_cov_json(u_list)
-    if v2ray_status:
+    if xray_status:
         os.popen(r_cmd)
         #print('restart')
     else:
