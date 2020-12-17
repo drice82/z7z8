@@ -22,15 +22,16 @@
                 "decryption":"none",
                 "fallbacks":[
                     {
-                        "dest":"example.com:80"
-                    },
+                        "dest": 1310,
+			"xver": 1
+		    },
                     {
                         "path": "/data",
                         "dest": 1234,
                         "xver": 1
                     },
                     {
-                        "path":"/vlessws",
+                        "path":"/images",
                         "dest":2345,
                         "xver":1
                     }
@@ -59,6 +60,40 @@
                 }
             }
         },
+	{
+	    "tag":"trojan",
+	    "port": 1310,
+	    "listen": "127.0.0.1",
+	    "protocol": "trojan",
+	    "settings": {
+		"clients": [
+		    {
+		        "password":"",
+		        "level": 0,
+		        "email": "ab@daf.com"
+		    }
+		],
+		"fallbacks": [
+		    {
+			"dest": "example.com:80"
+		    }
+		]
+	    },
+            "sniffing":{
+                "enabled":true,
+                "destOverride":[
+                    "http",
+                    "tls"
+                ]
+            },
+	    "streamSettings": {
+		"network": "tcp",
+		"security": "none",
+		"tcpSettings": {
+		    "acceptProxyProtocol": true
+		}
+	    }
+	},
         {
             "tag":"vmess",
             "port": 1234,
@@ -128,7 +163,7 @@
                 "security":"none",
                 "wsSettings":{
                     "acceptProxyProtocol":true,
-                    "path":"/vlessws"
+                    "path":"/images"
                 }
             }
         },

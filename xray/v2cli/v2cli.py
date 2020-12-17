@@ -125,7 +125,7 @@ def traffic_check(all_user):
 def pull_user():
     from copy import deepcopy
     global data
-    sql = "SELECT id, email, enable, uuid FROM user"
+    sql = "SELECT id, email, enable, uuid, passwd, port FROM user"
     data_cache = exec_sql(sql)
     if data_cache == 'error':
         return 'error'
@@ -168,6 +168,7 @@ def sql_cov_json(userlist):
                 usrname_cfg['id'] = user['uuid']
                 usrname_cfg['email'] = user['email']
                 usrname_cfg['level'] = 0
+                usrname_cfg['password'] = user['passwd'] + str(user['port'])
                 User_list.append(usrname_cfg)
             elif user['enable'] == 0:
                 del_user = [i for i in User_list if i['id'] == user['uuid']]
@@ -180,18 +181,29 @@ def sql_cov_json(userlist):
         c_dict = get_config_json()
         users1 = make_config_json()
         #update vless_ws
-        c_dict["inbounds"][2]["settings"].update({'clients':users1})
+        users_tmp = deepcopy(users1)
+        for i in users_tmp:
+            del i['password']
+        c_dict["inbounds"][3]["settings"].update({'clients':users_tmp})
+
+        #update trojan
+        users_tmp = deepcopy(users1)
+        for i in users_tmp:
+            del i['id']
+        c_dict["inbounds"][1]["settings"].update({'clients':users_tmp})
 
         #update vmess
         users_tmp = deepcopy(users1)
         for i in users_tmp:
             i['alterId'] = 16
-        c_dict["inbounds"][1]["settings"].update({'clients':users_tmp})
-
+            del i['password']
+        c_dict["inbounds"][2]["settings"].update({'clients':users_tmp})
+       
         #update vless_xtls
         users_tmp = deepcopy(users1)
         for i in users_tmp:
             i['flow'] = 'xtls-rprx-direct'
+            del i['password']
         c_dict["inbounds"][0]["settings"].update({'clients':users_tmp})
         return c_dict
 
