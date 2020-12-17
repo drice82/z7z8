@@ -53,8 +53,8 @@
                     ],
                     "certificates":[
                         {
-                            "certificateFile":"/etc/v2ray/fullchain.crt",
-                            "keyFile":"/etc/v2ray/private.key"
+                            "certificateFile":"/etc/xray/fullchain.crt",
+                            "keyFile":"/etc/xray/private.key"
                         }
                     ]
                 }
