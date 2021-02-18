@@ -63,9 +63,9 @@ def get_traffic(user_email):
             except Exception as e:
                 return 0
 
-    cmd_downlink = V2CTL_PATH + ' api --server=xray:' + str(
+    cmd_downlink = V2CTL_PATH + ' api --server=127.0.0.1:' + str(
         CTL_PORT) + ' StatsService.GetStats \'name: \"user>>>' + user_email + '>>>traffic>>>downlink\" reset: true\''
-    cmd_uplink = V2CTL_PATH + ' api --server=xray:' + str(
+    cmd_uplink = V2CTL_PATH + ' api --server=127.0.0.1:' + str(
         CTL_PORT) + ' StatsService.GetStats \'name: \"user>>>' + user_email + '>>>traffic>>>uplink\" reset: true\''
     d_data = int(traffic_get_msg(cmd_downlink))
     u_data = int(traffic_get_msg(cmd_uplink))
