@@ -1,0 +1,12 @@
+version: '3.4'
+
+services:
+
+  bitwardenrs:
+    image: bitwardenrs/server:latest
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - /home/bitwardenrs/bw-data/:/data/
+
