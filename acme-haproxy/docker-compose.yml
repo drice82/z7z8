@@ -3,6 +3,7 @@ services:
   haproxy:
     image: haproxy:2.4
     container_name: haproxy
+    restart: always
     volumes:
       - "./haproxy:/usr/local/etc/haproxy"
       - "./acme.sh/certs:/certs"
@@ -14,6 +15,7 @@ services:
   acme.sh:
     image: neilpang/acme.sh
     container_name: acme.sh    
+    restart: always
     command: daemon
     volumes:
       - "./acme.sh:/acme.sh"
