@@ -1,0 +1,21 @@
+version: '3.4'
+services:
+  haproxy:
+    image: haproxy:2.4
+    container_name: haproxy
+    volumes:
+      - "./haproxy:/usr/local/etc/haproxy"
+      - "./acme.sh/certs:/certs"
+    ports:
+      - "7001-7020:7001-7020"
+      - "8001-8020:8001-8020"
+      - "9090:9090"
+
+  acme.sh:
+    image: neilpang/acme.sh
+    container_name: acme.sh    
+    command: daemon
+    volumes:
+      - "./acme.sh:/acme.sh"
+    environment:
+      - DEPLOY_HAPROXY_PEM_PATH="/acme.sh/certs"
