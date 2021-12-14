@@ -21,3 +21,5 @@ services:
       - "./acme.sh:/acme.sh"
     environment:
       - DEPLOY_HAPROXY_PEM_PATH="/acme.sh/certs"
+      - CF_Key="xxx"
+      - CF_Email="xxx@gmail.com"
