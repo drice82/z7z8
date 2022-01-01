@@ -195,7 +195,7 @@ def sql_cov_json(userlist):
         #update vmess
         users_tmp = deepcopy(users1)
         for i in users_tmp:
-            i['alterId'] = 16
+            #i['alterId'] = 16
             del i['password']
         c_dict["inbounds"][2]["settings"].update({'clients':users_tmp})
        
