@@ -5,10 +5,8 @@
 # 支持操作系统： Linux, OSX, FreeBSD, OpenBSD and NetBSD, both 32-bit and 64-bit architectures
 # 说明: 默认情况下修改server和user就可以了。丢包率监测方向可以自定义，例如：CU = "www.facebook.com"。
 
-SERVER = "127.0.0.1"
-USER = "s01"
-
-
+SERVER = os.environ.get('STATUS_ADDRESS')
+USER = os.environ.get('STATUS_USER')
 
 PORT = 35601
 PASSWORD = "USER_DEFAULT_PASSWORD"
