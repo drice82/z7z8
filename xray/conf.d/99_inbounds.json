@@ -2,7 +2,7 @@
     "inbounds":[
         {
             "tag":"xtls",
-            "port":"8088,38088,38088,58088",
+            "port":"8088,38088,48088,58088",
             "protocol":"vless",
             "settings":{
                 "clients":[
