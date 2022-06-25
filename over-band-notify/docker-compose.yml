@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+
+  notify:
+    image: notify:v2
+    container_name: email
+    restart: always
