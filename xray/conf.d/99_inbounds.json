@@ -166,6 +166,33 @@
             }
         },
         {
+            "tag":"shadowsocks",
+            "port":1234,
+            "protocol":"shadowsocks",
+            "settings":{
+                "method":"2022-blake3-aes-256-gcm",
+                "password":"I4RTyMIGq9fRX98Ad/EU2odEytiknwtPc0A6PTdatAM=",
+                "clients":[
+                    {
+                        "password":"RQHp3Xx1NfBX4PFnEVq5/ZlMpm1pb+rCtXDGXrX8CZs=",
+                        "email":"hff@protonmail.com"
+                    },
+                    {
+                        "password":"6mf+Cr2bDqr8IeDhebQIDjhYUbK3pPflmE+q92nDmDs=",
+                        "email":"faf@outlook.com"
+                    }
+                ],
+                "sniffing":{
+                    "enabled":true,
+                    "destOverride":[
+                        "http",
+                        "tls"
+                    ]
+                },
+                "network":"tcp,udp"
+            }
+        },	    
+        {
             "listen":"127.0.0.1",
             "port":10085,
             "protocol":"dokodemo-door",
