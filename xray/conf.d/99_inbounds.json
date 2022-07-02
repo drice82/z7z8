@@ -167,7 +167,7 @@
         },
         {
             "tag":"shadowsocks",
-            "port":8004,
+            "port":"8084,58084",
             "protocol":"shadowsocks",
             "settings":{
                 "method":"2022-blake3-aes-256-gcm",
