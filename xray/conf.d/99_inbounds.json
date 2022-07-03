@@ -171,7 +171,7 @@
             "protocol":"shadowsocks",
             "settings":{
                 "method":"2022-blake3-aes-128-gcm",
-                "password":"I4RTyMIGq9fRX98Ad/EU2odEytiknwtPc0A6PTdatAM=",
+                "password":"Njk4ZjdhODk2ZTFhOTAyOTE5ZjFiNGQ2Y2Y2MGY4OTQ=",
                 "clients":[
                     {
                         "password":"RQHp3Xx1NfBX4PFnEVq5/ZlMpm1pb+rCtXDGXrX8CZs=",
