@@ -1,4 +1,4 @@
-FROM teddysun/v2ray as builder
+FROM teddysun/v2ray:4.45.2 as builder
 
 FROM alpine 
 
