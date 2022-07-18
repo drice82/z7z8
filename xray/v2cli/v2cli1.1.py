@@ -16,9 +16,9 @@ USERNAME = os.environ.get('MYSQL_USERNAME', 'admin_ss1')
 PASSWORD = os.environ.get('MYSQL_PWD', 'your_password')
 DBNAME = os.environ.get('MYSQL_DBNAME', 'admin_ss1')
 MUL = float(os.environ.get('SET_MUL', 1))
-UPDATE_TIME = int(os.environ.get('UPDATE_TIME', 150))
+UPDATE_TIME = int(os.environ.get('UPDATE_TIME', 150)) 
 
-V2CTL_PATH = '/usr/bin/xray'
+V2CTL_PATH = '/usr/bin/v2ctl'
 CONFIG_PATH = '/etc/xray/conf.d/99_inbounds.json'
 CTL_PORT = 10085
 User_list = []
@@ -62,21 +62,21 @@ def get_traffic(user_email):
         finally:
             exec_cmd.kill()
         allouts = (outs + errs).decode()
-        error_str = 'failed to get'
+        error_str = 'failed to call service StatsService.GetStats'
         check_error = re.search(error_str, str(allouts))
         if check_error is not None:
             return 0
         else:
             try:
-                traffic_values = json.loads(allouts)["stat"]["value"]
+                traffic_values = [i for i in allouts.split('\n') if re.search('value:', i)][0].strip()[7:]
                 return traffic_values
             except Exception as e:
                 return 0
 
-    cmd_downlink = V2CTL_PATH + ' api stats --server=127.0.0.1:' + str(
-        CTL_PORT) + ' -name \"user>>>' + user_email + '>>>traffic>>>downlink\" -reset'
-    cmd_uplink = V2CTL_PATH + ' api stats --server=127.0.0.1:' + str(
-        CTL_PORT) + ' -name \"user>>>' + user_email + '>>>traffic>>>uplink\" -reset'
+    cmd_downlink = V2CTL_PATH + ' api --server=127.0.0.1:' + str(
+        CTL_PORT) + ' StatsService.GetStats \'name: \"user>>>' + user_email + '>>>traffic>>>downlink\" reset: true\''
+    cmd_uplink = V2CTL_PATH + ' api --server=127.0.0.1:' + str(
+        CTL_PORT) + ' StatsService.GetStats \'name: \"user>>>' + user_email + '>>>traffic>>>uplink\" reset: true\''
     d_data = int(traffic_get_msg(cmd_downlink))
     u_data = int(traffic_get_msg(cmd_uplink))
     if d_data == 0:
