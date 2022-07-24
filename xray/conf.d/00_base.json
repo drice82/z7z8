@@ -6,6 +6,7 @@
     "api":{
         "tag":"api",
         "services":[
+            "HandlerService",
             "StatsService"
         ]
     },
