@@ -1,15 +1,15 @@
-FROM teddysun/v2ray:4.45.2 as builder
+FROM teddysun/xray as builder
 
-FROM alpine 
+FROM alpine:3.16
 
-RUN apk add --update --no-cache python3 docker-cli py3-pip && \
+RUN apk add --update --no-cache python3 py3-pip && \
     rm -rf /var/cache/apk/* /tmp/* /var/tmp/* $HOME/.cache
 
 RUN pip install pymysql
 
 WORKDIR /app
 
-COPY --from=builder /usr/bin/v2ctl /usr/bin/
-COPY ./v2cli.py .
+COPY --from=builder /usr/bin/xray /usr/bin/
+COPY . .
 
-CMD [ "python3", "./v2cli.py" ]
+CMD [ "python3", "-u", "./v2cli.py" ]
