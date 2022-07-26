@@ -20,10 +20,13 @@ UPDATE_TIME = int(os.environ.get('UPDATE_TIME', 120))
 ENABLED_SS = int(os.environ.get('ENABLED_SS', 0))
 
 V2CTL_PATH = '/usr/bin/xray'
-CONFIG_PATH = '/app/tmp_inbounds.json'
 CTL_PORT = 10085
 User_list = []
 data = []
+if ENABLED_SS == 0:
+    CONFIG_PATH='/app/xtls_inbounds.json'
+else:
+    CONFIG_PATH='/app/xtls_and_ss_inbounds.json'
 
 loop = True
 
@@ -225,13 +228,13 @@ def sql_cov_json(userlist):
 
 def update_cfg(u_list):
     sql_cov_json(u_list)
-    res=os.popen(V2CTL_PATH + ' api rmi --server=127.0.0.1:' + str(CTL_PORT) + ' "xtls" "vless" "vmess" "trojan" "shadowsocks"').read()
-    #print("1" + res)
-    res=os.popen(V2CTL_PATH + ' api adi --server=127.0.0.1:' + str(CTL_PORT) + ' /app/tmp_inbounds.json').read()
-    #print("2" + res)
     if ENABLED_SS == 0:
-        res=os.popen(V2CTL_PATH + ' api rmi --server=127.0.0.1:' + str(CTL_PORT) + ' "shadowsocks"').read()
-        #print("3" + res)
+        res=os.popen(V2CTL_PATH + ' api rmi --server=127.0.0.1:' + str(CTL_PORT) + ' "xtls" "vless" "vmess" "trojan"').read()
+    else:
+        res=os.popen(V2CTL_PATH + ' api rmi --server=127.0.0.1:' + str(CTL_PORT) + ' "xtls" "vless" "vmess" "trojan" "shadowsocks"').read()
+    res=os.popen(V2CTL_PATH + ' api adi --server=127.0.0.1:' + str(CTL_PORT) + ' ' + CONFIG_PATH).read()
+
+
 
 def accept_cfg():
     user_config_temp = pull_user()
