@@ -46,8 +46,7 @@ def update_traffic():
                 tra_sql = 'UPDATE user SET d=d+' + str(int(traffic_msg[0]*MUL)) + ', u=u+' + str(int(traffic_msg[1]*MUL)) + ', t=' + str(traffic_msg[2]) + ' WHERE email=\'' + u_list['email'] + '\''
                 exec_sql(tra_sql)
         except Exception as e:
-            print('Traffic read error!')
-            print(e)
+            print(time.asctime(time.localtime(time.time())) + ' Traffic update error! ' + e)
 
 
 def get_traffic(user_email):
@@ -101,16 +100,21 @@ def exec_sql(sql):
         port=PORT,
         charset='utf8'
         )
-    try:
-        cursor = conn.cursor(pymysql.cursors.DictCursor)
-        cursor.execute(sql)
-        data = cursor.fetchall()
-        conn.commit()
-    except Exception as e:
-        print(e)
-        data = 'error'
-    finally:
-        conn.close()
+    retry_count = 3
+    init_connect_count = 0
+    connect_res = True
+    while connect_res and init_connect_count < retry_count:
+        try:
+            cursor = conn.cursor(pymysql.cursors.DictCursor)
+            cursor.execute(sql)
+            data = cursor.fetchall()
+            conn.commit()
+            connect_res = False
+        except Exception as e:
+            print(time.asctime(time.localtime(time.time())) + e)
+            data = 'error'
+            init_connect_count += 1
+    conn.close()
     return data
 
 
@@ -243,8 +247,7 @@ def accept_cfg():
         try:
             update_cfg(user_config_temp)
         except Exception as e:
-            print(e)
-            print('Update Error!')
+            print(time.asctime(time.localtime(time.time())) + ' Update Error! ' + e)
     #else:
         #print('no update')
 
@@ -256,7 +259,7 @@ signal.signal(signal.SIGTERM, receive_signal)
 signal.signal(signal.SIGINT, receive_signal)
 
 def main():
-    print("V2cli is running")
+    print(time.asctime(time.localtime(time.time())) + " V2cli is running")
     global loop
     while loop:
         #print(time.asctime(time.localtime(time.time())))
@@ -264,7 +267,7 @@ def main():
             update_traffic()
             accept_cfg()
         except Exception as e:
-            print(e)
+            print(time.asctime(time.localtime(time.time())) + e)
         update_time = UPDATE_TIME
         while loop and update_time>0:
             update_time -=1
