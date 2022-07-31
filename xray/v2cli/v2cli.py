@@ -46,7 +46,8 @@ def update_traffic():
                 tra_sql = 'UPDATE user SET d=d+' + str(int(traffic_msg[0]*MUL)) + ', u=u+' + str(int(traffic_msg[1]*MUL)) + ', t=' + str(traffic_msg[2]) + ' WHERE email=\'' + u_list['email'] + '\''
                 exec_sql(tra_sql)
         except Exception as e:
-            print(time.asctime(time.localtime(time.time())) + ' Traffic update error! ' + e)
+            print(time.asctime(time.localtime(time.time())) + ' Traffic update error! ' )
+            print(e)
 
 
 def get_traffic(user_email):
@@ -111,7 +112,8 @@ def exec_sql(sql):
             conn.commit()
             connect_res = False
         except Exception as e:
-            print(time.asctime(time.localtime(time.time())) + e)
+            print(time.asctime(time.localtime(time.time())))
+            print(e)
             data = 'error'
             init_connect_count += 1
     conn.close()
@@ -247,7 +249,8 @@ def accept_cfg():
         try:
             update_cfg(user_config_temp)
         except Exception as e:
-            print(time.asctime(time.localtime(time.time())) + ' Update Error! ' + e)
+            print(time.asctime(time.localtime(time.time())) + ' Update Error! ')
+            print(e)
     #else:
         #print('no update')
 
@@ -267,7 +270,8 @@ def main():
             update_traffic()
             accept_cfg()
         except Exception as e:
-            print(time.asctime(time.localtime(time.time())) + e)
+            print(time.asctime(time.localtime(time.time())))
+            print(e)
         update_time = UPDATE_TIME
         while loop and update_time>0:
             update_time -=1
