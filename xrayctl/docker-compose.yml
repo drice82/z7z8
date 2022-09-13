@@ -1,0 +1,29 @@
+version: "3"
+services:
+  xray:
+    image: teddysun/xray
+    container_name: xray
+    restart: always
+    volumes:
+      - /home/xray:/etc/xray/
+    network_mode: host
+    entrypoint: "xray -confdir /etc/xray/conf.d"
+
+  v2cli:
+    image: drice64/xrayctl:0.1
+    container_name: xrayctl
+    restart: always
+    depends_on:
+      - xray
+    volumes:
+      - /home/xray:/etc/xray/
+    network_mode: host
+    environment:
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_PORT: ${MYSQL_PORT}
+      MYSQL_USERNAME: ${MYSQL_USERNAME}
+      MYSQL_PWD: ${MYSQL_PWD}
+      MYSQL_DBNAME: ${MYSQL_DBNAME}
+      SET_MUL: ${SET_MUL}
+      UPDATE_TIME: ${UPDATE_TIME}
+      ENABLED_SS: ${ENABLED_SS}
