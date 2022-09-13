@@ -1,0 +1,132 @@
+{
+    "inbounds":[
+        {
+            "tag":"xtls",
+            "port":"8088,58088-58188",
+            "protocol":"vless",
+            "settings":{
+                "clients":
+"__replace__":"xtls",
+                "decryption":"none",
+                "fallbacks":[
+                    {
+                        "dest": 1310,
+			"xver": 1
+		    },
+                    {
+                        "path": "/data",
+                        "dest": 1234,
+                        "xver": 1
+                    },
+                    {
+                        "path":"/images",
+                        "dest":2345,
+                        "xver":1
+                    }
+                ]
+            },
+            "sniffing":{
+                "enabled":true,
+                "destOverride":[
+                    "http",
+                    "tls"
+                ]
+            },
+	    "streamSettings":{
+                "network":"tcp",
+                "security":"xtls",
+                "xtlsSettings":{
+                    "alpn":[
+                        "http/1.1"
+                    ],
+                    "certificates":[
+                        {
+                            "certificateFile":"/etc/xray/fullchain.crt",
+                            "keyFile":"/etc/xray/private.key"
+                        }
+                    ]
+                }
+            }
+        },
+	{
+	    "tag":"trojan",
+	    "port": 1310,
+	    "listen": "127.0.0.1",
+	    "protocol": "trojan",
+	    "settings": {
+		"clients": 
+"__replace__":"trojan",
+		"fallbacks": [
+		    {
+			"dest": "example.com:80"
+		    }
+		]
+	    },
+            "sniffing":{
+                "enabled":true,
+                "destOverride":[
+                    "http",
+                    "tls"
+                ]
+            },
+	    "streamSettings": {
+		"network": "tcp",
+		"security": "none",
+		"tcpSettings": {
+		    "acceptProxyProtocol": true
+		}
+	    }
+	},
+        {
+            "tag":"vmess",
+            "port": 1234,
+            "listen": "127.0.0.1",
+            "protocol": "vmess",
+            "settings": {
+                "clients":
+"__replace__":"vmess_and_vless"
+            },
+            "sniffing":{
+                "enabled":true,
+                "destOverride":[
+                    "http",
+                    "tls"
+                ]
+            },
+            "streamSettings": {
+                "network": "ws",
+                "security": "none",
+                "wsSettings": {
+                    "acceptProxyProtocol": true,
+                    "path": "/data"
+                }
+            }
+        },
+        {
+            "tag":"vless",
+            "port":2345,
+            "listen":"127.0.0.1",
+            "protocol":"vless",
+            "settings":{
+                "clients":
+"__replace__":"vmess_and_vless",
+                "decryption":"none"
+            },
+            "sniffing":{
+                "enabled":true,
+                "destOverride":[
+                    "http",
+                    "tls"
+                ]
+            },
+            "streamSettings":{
+                "network":"ws",
+                "security":"none",
+                "wsSettings":{
+                    "acceptProxyProtocol":true,
+                    "path":"/images"
+                }
+            }
+        }
+    ]
+}
