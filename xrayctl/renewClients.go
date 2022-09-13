@@ -55,6 +55,7 @@ func renewClients() {
 	err := Db.Select(&User, "select id, email, passwd, port, uuid from user where enable=1 and u+d<transfer_enable")
 	if err != nil {
 		fmt.Println("Exec select failed, ", err)
+		return
 	}
 	defer Db.Close()
 
@@ -77,24 +78,30 @@ func renewClients() {
 	if NewUserMd5 != OldUserMd5 {
 		//read the json file
 		jsonFile, err := os.Open("/app/xtls_inbounds.json")
-		checkErr(err)
+		if err != nil {
+			fmt.Println("Read json error, ", err)
+			return
+		}
 		defer jsonFile.Close()
 		byteValue, _ := ioutil.ReadAll(jsonFile)
 		strValue := string(byteValue)
 
 		//replace the Clients
-		jsonByte, err := json.MarshalIndent(xtlsClient, "", "	")
+		jsonByte, _:= json.MarshalIndent(xtlsClient, "", "	")
 		strValue = strings.Replace(strValue, `"__replace__":"xtls"`, string(jsonByte), 1)
 
-		jsonByte, err = json.MarshalIndent(TrojanClient, "", "	")
+		jsonByte, _ = json.MarshalIndent(TrojanClient, "", "	")
 		strValue = strings.Replace(strValue, `"__replace__":"trojan"`, string(jsonByte), 1)
 
-		jsonByte, err = json.MarshalIndent(VmessClient, "", "	")
+		jsonByte, _ = json.MarshalIndent(VmessClient, "", "	")
 		strValue = strings.Replace(strValue, `"__replace__":"vmess_and_vless"`, string(jsonByte), 2)
 
 		//write the json file
 		jsonFile, err = os.Create("/app/tmp_inbounds.json")
-		checkErr(err)
+		if err != nil {
+			fmt.Println("Write json erros, ", err)
+			return
+		}
 		defer jsonFile.Close()
 		jsonFile.WriteString(strValue)
 		OldUserMd5 = NewUserMd5

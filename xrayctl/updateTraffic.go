@@ -18,8 +18,9 @@ func updateTraffic() {
 			_, err := Db.Exec("update user set u=u+?, d=d+?, t=? where id=?", u, d, t, v.Id)
 			if err != nil {
 				fmt.Println("Update traffic failed, ", err)
+				return
 			}
 		}
 	}
-	Db.Close()
+	defer Db.Close()
 }

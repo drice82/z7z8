@@ -24,17 +24,12 @@ func main(){
 }
 
 
-func checkErr(err error) {
-	if err != nil {
-		fmt.Println(err)
-	}
-}
-
 func initDB() {
 	ptn := os.Getenv("MYSQL_USERNAME") + ":" + os.Getenv("MYSQL_PWD") + "@tcp(" + os.Getenv("MYSQL_HOST") + ":" + os.Getenv("MYSQL_PORT") + ")/" + os.Getenv("MYSQL_DBNAME")
 	database, err := sqlx.Open("mysql", ptn)
 	if err != nil {
 		fmt.Println("Open mysql failed,", err)
+		return
 	}
 
 	Db = database
