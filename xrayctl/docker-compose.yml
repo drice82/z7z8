@@ -9,7 +9,7 @@ services:
     network_mode: host
     entrypoint: "xray -confdir /etc/xray/conf.d"
 
-  v2cli:
+  xrayctl:
     image: drice64/xrayctl:0.1
     container_name: xrayctl
     restart: always

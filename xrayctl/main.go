@@ -19,7 +19,7 @@ func main(){
 	for {
 		updateTraffic()
 		renewClients()
-		time.Sleep(time.Duration(20)*time.Second)
+		time.Sleep(time.Duration(150)*time.Second)
 	}
 }
 
