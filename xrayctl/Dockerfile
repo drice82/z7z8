@@ -21,5 +21,6 @@ WORKDIR /app
 COPY --from=xray /usr/bin/xray /usr/local/bin/
 COPY --from=builder /usr/src/app/xrayctl /usr/local/bin/
 COPY --from=builder /usr/src/app/xtls_inbounds.json /app
+COPY --from=builder /usr/src/app/xtls_and_ss_inbounds.json /app
 
 CMD ["xrayctl"]

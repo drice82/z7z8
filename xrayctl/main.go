@@ -13,7 +13,7 @@ import(
 
 func main(){
 	fmt.Println("Wait for 10s...")
-	time.Sleep(time.Duration(10)*time.Second)
+	time.Sleep(time.Duration(3)*time.Second)
 	fmt.Println("XrayCtl start")
 	fmt.Println(time.Now())
 	for {
