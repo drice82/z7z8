@@ -7,5 +7,5 @@ WORKDIR /usr/src/app
 
 COPY . .
 
-CMD [ "python3", "./client-linux.py"]
+CMD [ "python3", "-u", "./client-linux.py"]
 
