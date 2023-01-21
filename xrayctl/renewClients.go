@@ -60,7 +60,7 @@ func renewClients() {
 	var shadowsocksClient []ShadowsocksClientStruct
 	var NewUserMd5 string
 
-	err := Db.Select(&User, "select id, email, passwd, port, uuid from user where enable=1 and u+d<transfer_enable")
+	err := Db.Select(&User, "select id, email, passwd, port, uuid from users where enable=1")
 	if err != nil {
 		fmt.Println("Exec select failed, ", err)
 		return

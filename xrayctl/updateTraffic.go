@@ -15,7 +15,7 @@ func updateTraffic() {
 	for _, v := range User {
 		u, d = xapi.RunQueryTraffic(v.Email)
 		if u+d >0 {
-			_, err := Db.Exec("update user set u=u+?, d=d+?, t=? where id=?", u, d, t, v.Id)
+			_, err := Db.Exec("update users set u=u+?, d=d+?, t=? where id=?", u, d, t, v.Id)
 			if err != nil {
 				fmt.Println("Update traffic failed, ", err)
 				return
