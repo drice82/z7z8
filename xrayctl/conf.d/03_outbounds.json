@@ -1,0 +1,12 @@
+{
+    "outbounds":[
+        {
+            "protocol":"freedom"
+        },
+        {
+            "protocol":"blackhole",
+            "settings":{},
+            "tag":"block"
+        }
+    ]
+}

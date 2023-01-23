@@ -1,0 +1,205 @@
+{
+    "inbounds":[
+        {
+            "tag":"xtls",
+            "port":"8088,18078-18098",
+            "protocol":"vless",
+            "settings":{
+                "clients":[
+                    {
+                        "id":"2f98d9f6-0d9c-473f-b255-4b82de1d91a7",
+                        "flow": "xtls-rprx-direct",
+                        "email":"11@gmail.com",
+                        "level":0
+                    },
+                    {
+                        "id":"2b18c776-13bf-408e-97ea-19553db97109",
+                        "flow": "xtls-rprx-direct",
+                        "email":"22@126.com",
+                        "level":0
+                    }
+                ],
+                "decryption":"none",
+                "fallbacks":[
+                    {
+                        "dest": 1310,
+			"xver": 1
+		    },
+                    {
+                        "path": "/data",
+                        "dest": 1234,
+                        "xver": 1
+                    },
+                    {
+                        "path":"/images",
+                        "dest":2345,
+                        "xver":1
+                    }
+                ]
+            },
+            "sniffing":{
+                "enabled":true,
+                "destOverride":[
+                    "http",
+                    "tls"
+                ]
+            },
+	    "streamSettings":{
+                "network":"tcp",
+                "security":"xtls",
+                "xtlsSettings":{
+                    "alpn":[
+                        "http/1.1"
+                    ],
+                    "certificates":[
+                        {
+                            "certificateFile":"/etc/xray/fullchain.crt",
+                            "keyFile":"/etc/xray/private.key"
+                        }
+                    ]
+                }
+            }
+        },
+	{
+	    "tag":"trojan",
+	    "port": 1310,
+	    "listen": "127.0.0.1",
+	    "protocol": "trojan",
+	    "settings": {
+		"clients": [
+		    {
+		        "password":"",
+		        "level": 0,
+		        "email": "ab@daf.com"
+		    }
+		],
+		"fallbacks": [
+		    {
+			"dest": "example.com:80"
+		    }
+		]
+	    },
+            "sniffing":{
+                "enabled":true,
+                "destOverride":[
+                    "http",
+                    "tls"
+                ]
+            },
+	    "streamSettings": {
+		"network": "tcp",
+		"security": "none",
+		"tcpSettings": {
+		    "acceptProxyProtocol": true
+		}
+	    }
+	},
+        {
+            "tag":"vmess",
+            "port": 1234,
+            "listen": "127.0.0.1",
+            "protocol": "vmess",
+            "settings": {
+                "clients": [
+                    {
+                        "id":"2f98d9f6-0d9c-473f-b255-4b82de1d91a7",
+                        "email":"11@gmail.com",
+                        "level":0
+                    },
+                    {
+                        "id":"2b18c776-13bf-408e-97ea-19553db97109",
+                        "email":"22@126.com",
+                        "level":0
+                    }
+                ]
+            },
+            "sniffing":{
+                "enabled":true,
+                "destOverride":[
+                    "http",
+                    "tls"
+                ]
+            },
+            "streamSettings": {
+                "network": "ws",
+                "security": "none",
+                "wsSettings": {
+                    "acceptProxyProtocol": true,
+                    "path": "/data"
+                }
+            }
+        },
+        {
+            "tag":"vless",
+            "port":2345,
+            "listen":"127.0.0.1",
+            "protocol":"vless",
+            "settings":{
+                "clients":[
+                    {
+                        "id":"2f98d9f6-0d9c-473f-b255-4b82de1d91a7",
+                        "email":"11@gmail.com",
+                        "level":0
+                    },
+                    {
+                        "id":"2b18c776-13bf-408e-97ea-19553db97109",
+                        "email":"22@126.com",
+                        "level":0
+                    }
+                ],
+                "decryption":"none"
+            },
+            "sniffing":{
+                "enabled":true,
+                "destOverride":[
+                    "http",
+                    "tls"
+                ]
+            },
+            "streamSettings":{
+                "network":"ws",
+                "security":"none",
+                "wsSettings":{
+                    "acceptProxyProtocol":true,
+                    "path":"/images"
+                }
+            }
+        },
+        {
+            "tag":"shadowsocks",
+            "port":"8084,58084",
+            "protocol":"shadowsocks",
+            "settings":{
+                "method":"2022-blake3-aes-128-gcm",
+                "password":"Njk4ZjdhODk2ZTFhOTAyOTE5ZjFiNGQ2Y2Y2MGY4OTQ=",
+                "clients":[
+                    {
+                        "password":"RQHp3Xx1NfBX4PFnEVq5/ZlMpm1pb+rCtXDGXrX8CZs=",
+                        "email":"hff@protonmail.com"
+                    },
+                    {
+                        "password":"6mf+Cr2bDqr8IeDhebQIDjhYUbK3pPflmE+q92nDmDs=",
+                        "email":"faf@outlook.com"
+                    }
+                ],
+                "sniffing":{
+                    "enabled":true,
+                    "destOverride":[
+                        "http",
+                        "tls"
+                    ]
+                },
+                "network":"tcp,udp"
+            }
+        },
+        {
+            "listen":"127.0.0.1",
+            "port":10085,
+            "protocol":"dokodemo-door",
+            "settings":{
+                "address":"127.0.0.1"
+            },
+            "tag":"api"
+        }
+    ]
+}

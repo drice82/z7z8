@@ -1,0 +1,25 @@
+{
+    "log":{
+        "loglevel":"none"
+    },
+    "stats":{},
+    "api":{
+        "tag":"api",
+        "services":[
+            "HandlerService",
+            "StatsService"
+        ]
+    },
+    "policy":{
+        "levels":{
+            "0":{
+                "statsUserUplink":true,
+                "statsUserDownlink":true
+            }
+        },
+        "system":{
+            "statsInboundUplink":true,
+            "statsInboundDownlink":true
+        }
+    }
+}
