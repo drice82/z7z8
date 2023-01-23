@@ -10,7 +10,7 @@ services:
     entrypoint: "xray -confdir /etc/xray/conf.d"
 
   xrayctl:
-    image: drice64/xrayctl:0.5
+    image: drice64/xrayctl:0.7
     container_name: xrayctl
     restart: always
     depends_on:
