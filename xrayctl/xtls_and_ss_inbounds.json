@@ -43,7 +43,11 @@
                         {
                             "certificateFile":"/etc/xray/fullchain.crt",
                             "keyFile":"/etc/xray/private.key"
-                        }
+                        },
+                        {
+                            "certificateFile":"/etc/xray/fullchain2.crt",
+                            "keyFile":"/etc/xray/private2.key"
+                        }			    
                     ]
                 }
             }
