@@ -1,7 +1,7 @@
 version: "3"
 services:
   xray:
-    image: teddysun/xray
+    image: teddysun/xray:1.7.5
     container_name: xray
     restart: always
     volumes:
@@ -10,7 +10,7 @@ services:
     entrypoint: "xray -confdir /etc/xray/conf.d"
 
   xrayctl:
-    image: drice64/xrayctl:0.9
+    image: drice64/xrayctl:0.10.1
     container_name: xrayctl
     restart: always
     depends_on:
