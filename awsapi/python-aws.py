@@ -41,7 +41,7 @@ images = {
     'ap-southeast-2': 'ami-0481b3d323ae68357',
     'ap-northeast-1': 'ami-0d4829cafe34d5d92',
     'ca-central-1': 'ami-05eccd43882a30f9a',
-    'ap-east-1': 'ami-0e597d8e7c55ba1ac',
+    'ap-east-1': 'ami-098f6239cd5edafd4',
     'cn-north-1': 'ami-0764541358866f84e',
     'cn-northwest-1': 'ami-02441dea73a15a612',
     'eu-central-1': 'ami-032d3b1d0246c218e',
