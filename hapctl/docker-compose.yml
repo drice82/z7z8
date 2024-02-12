@@ -1,0 +1,25 @@
+version: "3"
+services:
+  haproxy:
+    image: haproxytech/haproxy-debian:2.8
+    container_name: haproxy-debian
+    restart: always
+    volumes:
+      - shared_data:/var/run
+      - /usr/local/etc/haproxy:/usr/local/etc/haproxy
+    network_mode: host
+
+  hapctl:
+    image: drice64/hapctl
+    restart: always
+    depends_on:
+      - haproxy
+    container_name: hapctl
+    volumes:
+      - shared_data:/var/run/haproxy
+    environment:
+      API_KEY: "api_key"
+      URL: "https://dev.example.net"
+
+volumes:
+    shared_data:
