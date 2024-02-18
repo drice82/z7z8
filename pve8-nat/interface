@@ -1,0 +1,28 @@
+auto lo
+iface lo inet loopback
+
+iface eno1 inet manual
+
+auto vmbr0
+iface vmbr0 inet static
+        address 37.187.75.17/24
+        gateway 37.187.75.254
+        bridge-ports eno1
+        bridge-stp off
+        bridge-fd 0
+        hwaddress 70:54:D2:19:CB:79
+#ipv6
+
+iface vmbr0 inet6 static
+        address 2001:41d0:a:2b11::1/64
+        gateway 2001:41d0:a:2bff:ff:ff:ff:ff
+
+auto vmbr1
+iface vmbr1 inet static
+        address 10.10.10.1/24
+        bridge-ports none
+        bridge-stp off
+        bridge-fd 0
+#ipv4
+        post-up   /usr/local/etc/vm_nat.sh start
+        post-down /usr/local/etc/vm_nat.sh stop
