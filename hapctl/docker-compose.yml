@@ -9,6 +9,7 @@ services:
       - /usr/local/etc/haproxy:/usr/local/etc/haproxy
     network_mode: host
 
+#隧道客户端不计流量，删除以下
   hapctl:
     image: drice64/hapctl
     restart: always
