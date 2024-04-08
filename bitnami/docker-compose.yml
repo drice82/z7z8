@@ -1,0 +1,41 @@
+version: '2'
+
+networks:
+  laravel-network:
+    driver: bridge
+volumes:
+  db_data:
+
+services:
+  mariadb:
+    image: 'bitnami/mariadb:10.6'
+    environment:
+      - MARIADB_ROOT_PASSWORD=MY_ROOT_PWD
+      - MARIADB_USER=user
+      - MARIADB_PASSWORD=MY_PWD
+      - MARIADB_DATABASE=mydb
+    networks:
+      - laravel-network
+    volumes:
+      - db_data:/bitnami/mariadb
+  phpmyadmin:
+    image: 'bitnami/phpmyadmin:latest'
+    networks:
+      - laravel-network
+    ports:
+      - "8080:8080"
+      - "8443:8443"
+  laravel:
+    image: 'bitnami/laravel:10'
+    environment:
+      - DB_HOST=mariadb
+      - DB_PORT=3306
+      - DB_USERNAME=user
+      - DB_PASSWORD=MY_PWD
+      - DB_DATABASE=mydb
+    networks:
+      - laravel-network
+    volumes:
+      - /home/bitnami/web:/app
+    ports:
+      - "8000:8000"
