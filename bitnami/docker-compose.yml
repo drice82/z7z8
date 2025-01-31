@@ -1,41 +1,57 @@
-version: '2'
-
 networks:
   laravel-network:
     driver: bridge
+
 volumes:
   db_data:
 
 services:
   mariadb:
     image: 'bitnami/mariadb:10.6'
+    restart: unless-stopped
     environment:
-      - MARIADB_ROOT_PASSWORD=MY_ROOT_PWD
-      - MARIADB_USER=user
-      - MARIADB_PASSWORD=MY_PWD
-      - MARIADB_DATABASE=mydb
+      - MARIADB_ROOT_PASSWORD=DB_ROOT_PWD
+      - MARIADB_USER=dbmasteruser
+      - MARIADB_PASSWORD=DB_USER_PWD
+      - MARIADB_DATABASE=vipuser
     networks:
       - laravel-network
     volumes:
       - db_data:/bitnami/mariadb
+
   phpmyadmin:
     image: 'bitnami/phpmyadmin:latest'
+    restart: unless-stopped
     networks:
       - laravel-network
     ports:
-      - "8080:8080"
-      - "8443:8443"
-  laravel:
-    image: 'bitnami/laravel:10'
+      - "2083:8443"
+    environment:
+      - PMA_HOST=mariadb
+    depends_on:
+      - mariadb
+
+  redis:
+    image: 'bitnami/redis:7.4.2'
+    restart: unless-stopped
+    networks:
+      - laravel-network
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+
+  xraypanel:
+    image: 'xraypanel:latest'
+    restart: unless-stopped
+    networks:
+      - laravel-network
+    ports:
+      - "80:8088"
     environment:
       - DB_HOST=mariadb
-      - DB_PORT=3306
-      - DB_USERNAME=user
-      - DB_PASSWORD=MY_PWD
-      - DB_DATABASE=mydb
-    networks:
-      - laravel-network
-    volumes:
-      - /home/bitnami/web:/app
-    ports:
-      - "8000:8000"
+      - DB_USERNAME=dbmasteruser
+      - DB_PASSWORD=DB_USER_PWD
+      - REDIS_HOST=redis
+      - MAIL_HOST=do.not.send
+    depends_on:
+      - mariadb
+      - redis
