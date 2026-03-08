@@ -1,0 +1,20 @@
+services:
+  nordvpn:
+    build: .
+    container_name: nordvpn_node
+    privileged: true
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    # 强制 Docker 注入可靠的 DNS，不再依赖宿主机的 127.0.0.53
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
+    sysctls:
+      - net.ipv6.conf.all.disable_ipv6=1
+    environment:
+      - NORDVPN_TOKEN=TOKEN
+      - CONNECT_TO=Taiwan
+    restart: always
